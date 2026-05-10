@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>首頁</h1>
+
+    <!-- href= 路由器名稱 -->
+    <a href="/bmi">BMI計算器</a>
+
+    <br>
+
+    <!-- 使用 jinja2 從後端"irw"傳遞至這裡的前端name -->
+    姓名：{{name}}
+    <!-- 這是尚未for的結果 -->
+    <p>{{stocks}}</p>
+
+    <!-- <h2>日經指數
+        <span style="color:red">22,920.30</span>
+    </h2> -->
+    <h2>現在日期時間：{{today}}</h2>
+    
+    {% for stock in stocks %}
+    
+    <!-- 接後端來的參數（值） -->
+    <h2>{{stock["分類"]}}
+        <span style="color:red">{{stock["指數"]}}</span>
+    </h2>
+
+    {% endfor %}
+
+</body>
+</html>
