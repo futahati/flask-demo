@@ -61,12 +61,11 @@
         pip list
         ```
 1. 格式化文件 (Format Document)／格式化程式碼
-    - （鍵盤流）快捷鍵 `Alt + Shift + F`
-    - 進入插件安裝視窗
-        - 輸入 Black Formatter
+    - （鍵盤流）快捷鍵 `Alt + Shift + F` → 進入插件安裝視窗
+        - 搜尋框輸入 Black Formatter
         - 點擊 Install
     - 點 左下角`齒輪` → Settings
-        - 輸入 format
+        - 搜尋框輸入 format
         - 找 Editor:Default Formatter
         - 修改下拉選單為 Black Formatter
 
@@ -100,10 +99,25 @@
                     ```
             - README.md（說明文字檔）
         - （鍵盤流）快捷鍵 `Ctrl + B` **快速顯示/隱藏 Explorer**
+
+    > 讓新建立的倉庫（git init）預設分支名稱為 main 
+    - cmd 輸入指令 ```git config --global init.defaultBranch main```
+    >> 將「預設初始化分支名稱」設定為 main。之後，在任何新資料夾下輸入 git init 時，Git 就會自動使用 main 而不是 master
+
 1. 在 GitHub 建立遠端儲存庫
+    - 申請
+        1. 點 章魚貓圖示
+        1. 點 綠色圖示 `New`
+        1. (新畫面)→ Repository name* → 輸入 專案的遠端儲存庫名稱
+        1. Choose visibility* 選 `Public` 公開
+        1. 點 綠色圖示 `Create repository`
     - 取得遠端儲存庫位址
         ```python
         git remote add origin 遠端儲存庫位址
+
+        # 2擇1(僅第一次push使用)上傳本地端儲存庫至『遠端儲存庫』
+        git push -u origin master
+        # git push -u origin main
         ```
 1. 上傳 GitHub
     - 開啟終端機 Terminal
@@ -119,6 +133,7 @@
         git status
         git add .
         git commit -m "說明文字"
-        # (僅第一次push使用)上傳本地端儲存庫至『遠端儲存庫』
+        # 2擇1(僅第一次push使用)上傳本地端儲存庫至『遠端儲存庫』
         git push -u origin master
+        # git push -u origin main
         ```

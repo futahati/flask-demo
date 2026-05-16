@@ -35,7 +35,7 @@ Press CTRL+C to quit
 # 5000是連接埠號（Port Number）：這是一個「通訊埠」，用來指引電腦上正在執行的特定服務。在學習 Python 的 Flask 輕量級網頁框架 或其他 Web 應用程式開發時，5000 是預設的測試通訊埠。
  * Running on http://127.0.0.1:5000
 
-# Ctrl + C → 關閉伺服器
+# Ctrl + C→ 關閉伺服器(發生程式卡住等問題時)
 Press CTRL+C to quit
 ```
 
@@ -154,8 +154,8 @@ def hello(name, height, weight):
 ```
 
 - 將 `try` `except` 獨立出來，寫一個函式
-    - def get_bmi() → return 回傳 `{}字典` 型態
-    - def hello() → 呼叫get_bmi()
+    - def get_bmi()→ return 回傳 `{}字典` 型態
+    - def hello()→ 呼叫get_bmi()
     ```python
     # 計算BMI + 評語
     def get_bmi(height, weight):
@@ -198,10 +198,10 @@ def hello(name, height, weight):
 ## 回傳靜態網頁 `render_template`
 - 在專案中，建立／新增Folder
     - 開啟Explorer (檔案總管)
-        - 在 Explorer 裡，滑鼠右鍵 → New Folder...
-        - 輸入 *templates* → Enter
+        - 在 Explorer 裡，滑鼠右鍵→ New Folder...
+        - 輸入 *templates*→ Enter
             - `templates`不能打錯字
-            - 滑鼠移至 `templates` 上 → 按右鍵 → New File...
+            - 滑鼠移至 `templates` 上→ 按右鍵→ New File...
             - 輸入 *index.html*
         - （鍵盤流）快捷鍵 `Ctrl + B` **快速顯示/隱藏 Explorer 視窗**
         - （鍵盤流）快捷鍵 `Ctrl + Shift + E` **進入／離開 Explorer 視窗**
@@ -241,7 +241,7 @@ def hello(name, height, weight):
         # ="irw" 代表：後端的資料
         return render_template("index.html", name="irw")
     ```
-#### stocks回傳前端的格式？
+#### {{stocks}}：回傳前端的格式，僅為後端資料結構
 - index.html
     ```html
     <body>
@@ -263,6 +263,7 @@ def hello(name, height, weight):
     ```python
     @app.route("/")
     def index():
+        # 這裡是後端的資料結構
         stocks=[
         {'分類': '日經指數', '指數': '22,920.30'},
         {'分類': '韓國綜合', '指數': '2,304.59'},
@@ -272,7 +273,8 @@ def hello(name, height, weight):
         
         return render_template("index.html", name="irw", stocks=stocks)
     ```
-#### `{% for %}` `{% endfor %}` 格式處理：for迴圈輸出
+#### 使用 for迴圈 輸出，並加上 htmal 標籤語法
+> `{% for %}` `{% endfor %}`
 - index.html
     ```html
     <body>
@@ -305,7 +307,235 @@ def hello(name, height, weight):
         # 字典取值 key:values
         # print()後端測試看結果用的
         for stock in stocks:
+            # 這裡如何取值，在jinja語法使用相同方法取值
             print(stocks['分類'], stocks['指數'])
         
         return render_template("index.html", name="irw", stocks=stocks)
+    ```
+> 加上日期時間 `from datetime import datetime`
+- index.html
+    ```html
+    <body>
+
+        <!-- 注意routes路由器是寫 time=day，所以在前端這裡是用time變數，不是用day！！ -->
+        <p>現在日期：{{time}}</p>
+
+    </body>
+    ```
+
+- route路由器
+    ```python
+    from datetime import datetime
+
+    time = datetime.now()
+    print(time)  # 2026-05-15 17:04:42.206350
+
+    # datetime有特別提供 .today()讓使用者直覺使用，其結果與 .now()是一樣的
+    today = datetime.today()
+    print(today)  # 2026-05-15 17:04:42.206470
+
+    # .date()僅顯示日期
+    day = datetime.now().date()
+    print(day)  # 2026-05-15
+
+    return render_template("index.html", name="irw", stocks=stocks, time=day)
+    ```
+
+### bmi.html
+- bmi.html 放在 `templates` 資料夾裡
+- 新增route路由器
+    ```python
+    @app.route("/bmi")
+    def bmi():
+
+        # 填入templates裡的網頁名稱bmi.html
+        return render_template("bmi.html")
+
+    # 網址 127.0.0.1:5000/bmi
+    ```
+- index.html
+    ```html
+    <body>
+
+        <!-- href="/bmi" 是填寫route小括號裡的 /bmi -->
+        <a href="/bmi">計算BMI</a>
+
+    </body>
+    ```
+- bmi.html
+    ```html
+    <body>
+
+        <!-- href="/" 是填寫route小括號裡的 / -->
+        <a href="/">回首頁</a>
+
+    </body>
+    ```
+
+#### form表單
+> form表單 → action="/calc-bmi"
+- bmi.html
+    ```html
+    <!-- action="/calc-bmi" 在action= 路由器 action接route -->
+    <form action="/calc-bmi" method="GET">
+
+        <div class="form-group">
+            <label>身高 (cm)</label>
+            <input type="number" name="height" placeholder="請輸入身高" required>
+        </div>
+        <div class="form-group">
+            <label>體重 (kg)</label>
+            <input type="number" name="weight" placeholder="請輸入體重" required>
+        </div>
+        <button type="submit">計算 BMI</button>
+    </form>
+    ```
+- route路由器
+    ```python
+    from flask import Flask, render_template
+
+    @app.route("/calc-bmi")
+    def calc_bmi():
+
+        return "test!"
+
+    # 網址 127.0.0.1:5000/calc-bmi
+    ```
+
+> form表單 → 輸入框input → name="height"／name="weight"
+- bmi.html
+    ```html
+    <form action="/calc-bmi" method="GET">
+        <div class="form-group">
+            <label>身高 (cm)</label>
+            <!-- 輸入框name 為"height"，後端使用request.args.get("height")取得使用者輸入height的值 -->
+            <input type="number" name="height" placeholder="請輸入身高" required>
+        </div>
+        <div class="form-group">
+            <label>體重 (kg)</label>
+            <!-- 輸入框name 為"weight"，後端使用request.args.get("weight")取得使用者輸入weight的值 -->
+            <input type="number" name="weight" placeholder="請輸入體重" required>
+        </div>
+        <button type="submit">計算 BMI</button>
+    </form>
+
+    <!-- 接 後端return過來的 result內容 -->
+    <div id="bmi">BMI：{{result["bmi"]}}</div>
+    <div id="category">評語：{{result["category"]}}</div>
+    ```
+- route路由器
+    ```python
+    # 新增引用套件 request
+    from flask import Flask, render_template, request
+
+    @app.route("/calc-bmi")
+    def calc_bmi():
+
+        # 前端form表單裡的變數名稱，用 .args.get()取得使用者 name="height" 輸入的值
+        height = request.args.get("height")
+        # 前端form表單裡的變數名稱，用 .args.get()取得使用者 name="weight" 輸入的值
+        weight = request.args.get("weight")
+
+        # 呼叫計算BMI函式
+        result = get_bmi(height, weight)
+
+        return render_template("bmi.html", result=result)
+
+    # 網址 127.0.0.1:5000/calc-bmi
+    ```
+- CSS
+    ```css
+    <style>
+        #bmi {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2rem;
+            color: blue;
+            text-align: center;
+            line-height: 1.6;
+            background-color: bisque;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+
+        #category {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2rem;
+            color: blue;
+            text-align: center;
+            line-height: 1.6;
+            background-color: bisque;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+    </style>
+    ```
+
+> form表單 處理：回首頁後，再進入 BMI計算器 的問題
+- {% if %} {% endif %}
+    ```html
+    <!-- True要回傳／False要回傳，使用if -->
+    {% if result %}
+    <!-- 接 後端return過來的 result內容 -->
+    <div id="bmi">BMI：{{result["bmi"]}}</div>
+    <div id="category">評語：{{result["category"]}}</div>
+    {% endif %}
+    ```
+
+- route路由器
+    ```python
+    @app.route("/bmi")
+    def bmi():
+
+        # 首頁也要有resul的回傳值
+        return render_template("bmi.html", result=None)
+
+    # 網址 127.0.0.1:5000/bmi
+    ```
+
+> form表單 輸入框input → 新增步進小數點、留住輸入值在畫面上()
+- ```<input step=0.1>```
+    - step 步進
+- ```<button type="submit">```submit的特性
+    - 會清空所有輸入框的值
+    - 將所有輸入框的值傳遞至後端
+    - ```<input value="{{height}}">```若要在畫面上顯示輸入值，必須從後端取回來
+- bmi.html
+    ```html
+    <form action="/calc-bmi" method="GET">
+        <div class="form-group">
+            <label>身高 (cm)</label>
+            <!-- name="height"的 (使用者輸入的)height 會顯示在網址上 -->
+            <!-- value= 代表輸入框要顯示的資訊 -->
+            <!-- 若要在畫面上顯示輸入值，必須從後端取回來 value="{{height}}" {{height}}來自於後端-->
+            <input step=0.1 value="{{height}}" type="number" name="height" placeholder="請輸入身高" required>
+        </div>
+        <div class="form-group">
+            <label>體重 (kg)</label>
+            <!-- name="weight"的 (使用者輸入的)weight 會顯示在網址上 -->
+            <!-- value= 代表輸入框要顯示的資訊 -->
+            <!-- 若要在畫面上顯示輸入值，必須從後端取回來 value="{{weight}}" {{weight}}來自於後端-->
+            <input step=0.1 value="{{weight}}" type="number" name="weight" placeholder="請輸入體重" required>
+        </div>
+        <button type="submit">計算 BMI</button>
+    </form>
+    ```
+- route路由器
+    ```python
+    # 新增引用套件 request
+    from flask import Flask, render_template, request
+
+    @app.route("/calc-bmi")
+    def calc_bmi():
+        
+        # 前端form表單裡的變數名稱，用 .args.get()取得使用者 name="height" 輸入的值
+        height = request.args.get("height")
+        # 前端form表單裡的變數名稱，用 .args.get()取得使用者 name="weight" 輸入的值
+        weight = request.args.get("weight")
+
+        # 呼叫計算BMI函式
+        result = get_bmi(height, weight)
+
+        return render_template("bmi.html", result=result)
+
+    # 網址 127.0.0.1:5000/calc-bmi
     ```
