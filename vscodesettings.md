@@ -69,6 +69,32 @@
         - 找 Editor:Default Formatter
         - 修改下拉選單為 Black Formatter
 
+1. 公共電腦下載 GitHub 專案
+    > 條件：建立temp_work資料夾在桌面，使用完畢後，可直接刪除temp_work資料夾
+    - 狀態1：`未`在桌面建立temp_work資料夾
+        1. 打開 VS Code → File > Open Folder... → 選擇 Desktop
+        2. 開啟 VS Code 的終端機（Terminal），依序輸入：
+            ```python
+            # 1. 建立暫存資料夾並進入
+            mkdir temp_work
+            cd temp_work
+            
+            # 2. Clone 專案並進入專案目錄
+            git clone https://github.com/futahati/fix-flow.git
+            cd fix-flow
+            
+            # 3. 讓 VS Code 直接切換視窗到 fix-flow 專案
+            code . -r
+            ```
+    - 狀態2：`已手動`在桌面建立temp_work資料夾
+        1. 打開 VS Code → File > Open Folder... → 選擇 C:\Users\USER\Desktop\temp_work
+        2. 開啟 VS Code 終端機（此時終端機預設路徑就在 temp_work 了），直接下指令：
+            ```python
+            git clone https://github.com/futahati/fix-flow.git
+            cd fix-flow
+            code . -r
+            ```
+
 ## GitHub
 1. 建立git
     - 開啟終端機 Terminal
