@@ -86,7 +86,35 @@
             
             # 3. 讓 VS Code 直接切換視窗到 fix-flow 專案
             code . -r
+
+            # 裝環境與套件
+            python -m venv venv
+            venv\Scripts\activate
+            pip install -r requirements.txt
+
+            # 跑專案與修改
+            # 修改了 models.py 時，必須先按 Ctrl + C 關掉伺服器（執行 makemigrations → migrate → runserver）
+            python manage.py makemigrations  # 資料庫專用
+            python manage.py migrate         # 資料庫專用
+
+            # 使用條件：GitHub 有 initial_data.json 測試資料 + 其他電腦需要執行測試時，才要執行這一段程式碼
+            python manage.py loaddata initial_data.json
+
+            # 啟動本地測試伺服器，在瀏覽器輸入 [http://127.0.0.1:8000/](http://127.0.0.1:8000/) 看成果
+            python manage.py runserver
+
+            # ============================================================
+            # 將測試資料打包匯出 (dumpdata)initial_data.json 的純文字檔，這份 .json 檔案可以隨著 git push 一起上傳到 GitHub
+            # 使用條件：任何地方建立了測試資料，想打包供日後使用時
+            python manage.py dumpdata --indent 2 > initial_data.json
             ```
+        3. 使用完後，公共電腦刪除步驟：
+           ```txet
+           1. 關閉 VS Code
+           2. Win + R → control credentialmgr → 刪除 git:[https://github.com](https://github.com) 憑證
+           3. 桌面 Shift + Delete 刪除 temp_work
+           ```
+
     - 狀態2：`已手動`在桌面建立temp_work資料夾
         1. 打開 VS Code → File > Open Folder... → 選擇 C:\Users\USER\Desktop\temp_work
         2. 開啟 VS Code 終端機（此時終端機預設路徑就在 temp_work 了），直接下指令：
