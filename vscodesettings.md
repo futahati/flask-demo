@@ -80,8 +80,9 @@
             cd temp_work
             
             # 2. Clone 專案並進入專案目錄
-            git clone https://github.com/futahati/fix-flow.git
-            cd fix-flow
+            # 請將 YOUR_USERNAME 改為你的 GitHub 帳號名稱；將 YOUR_REPOSITORY 改為你的 GitHub 專案名稱
+            git clone https://github.com/ YOUR_USERNAME / YOUR_REPOSITORY .git
+            cd YOUR_REPOSITORY
             
             # 3. 讓 VS Code 直接切換視窗到 fix-flow 專案
             code . -r
@@ -90,8 +91,9 @@
         1. 打開 VS Code → File > Open Folder... → 選擇 C:\Users\USER\Desktop\temp_work
         2. 開啟 VS Code 終端機（此時終端機預設路徑就在 temp_work 了），直接下指令：
             ```python
-            git clone https://github.com/futahati/fix-flow.git
-            cd fix-flow
+            # 請將 YOUR_USERNAME 改為你的 GitHub 帳號名稱；將 YOUR_REPOSITORY 改為你的 GitHub 專案名稱
+            git clone https://github.com/ YOUR_USERNAME / YOUR_REPOSITORY .git
+            cd YOUR_REPOSITORY
             code . -r
             ```
 
